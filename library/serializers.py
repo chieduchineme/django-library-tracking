@@ -62,5 +62,11 @@ class ExtendLoanSerializer(LoanSerializer):
     def update(self, instance, validated_data):
         return instance.extend_due_date(validated_data["additional_days"])
         
+classes ActiveLoansMemberSerializer(MemberSerializer):
+    active_loans - serializers.IntegerField(read_only=True)
+    username = serializers.CharField(read_only=True, source="user.username")
+    email = serializers.CharField(read_only=True, source="user.email")       
 
-       
+    class Meta(MemberSerializer.Meta):
+        fields = ['id', 'username', 'email', 'active_loan']
+
