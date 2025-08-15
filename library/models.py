@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import timedelta
+from django.conf import settings
+from django.utils import timezone
+from .utils import configure_due_date
 
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
@@ -41,6 +45,11 @@ class Loan(models.Model):
     loan_date = models.DateField(auto_now_add=True)
     return_date = models.DateField(null=True, blank=True)
     is_returned = models.BooleanField(default=False)
+    due_date = models.DateField(null=True, blank=True, default=configure_due_date)
 
     def __str__(self):
         return f"{self.book.title} loaned to {self.member.user.username}"
+
+    @property
+    def is_overdue(self):
+        return self.due_date < timezone.now().date()
