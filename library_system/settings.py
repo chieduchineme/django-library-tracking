@@ -102,7 +102,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        'rest_framework.permissions.AllowAny',],
+    "DEFAULT_PAGINATION_CLASSES": 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE' : 10,
+    'PAGE_SIZE_QUERY_PARAM' : 'page_size',
+    'MAX_SIZE' : 100
 }
 
 # Celery Configuration
