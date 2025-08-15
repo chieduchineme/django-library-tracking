@@ -45,3 +45,22 @@ class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields = ['id', 'book', 'book_id', 'member', 'member_id', 'loan_date', 'return_date', 'is_returned']
+
+
+class ExtendLoanSerializer(LoanSerializer):
+    additional_days = serializers.IntegerField(min_value=q, write_only=True)
+
+    class Meta:
+        model = Loan
+        fields = ['id', 'book', 'book_id', 'member', 'member_id', 'loan_date', 'return_date', 'is_returned', 'additional_days']
+
+    def validated_additional_days(Self, additional_days):
+        if self.instance.is_overdue:
+            raise serializers.ValidationError("the Loan is overdue")
+        return additional_days
+
+    def update(self, instance, validated_data):
+        return instance.extend_due_date(validated_data["additional_days"])
+        
+
+       
