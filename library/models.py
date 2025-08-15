@@ -4,6 +4,8 @@ from datetime import timedelta
 from django.conf import settings
 from django.utils import timezone
 from .utils import configure_due_date
+from .sets_for_query import MemberManager
+
 
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
@@ -34,6 +36,7 @@ class Book(models.Model):
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     membership_date = models.DateField(auto_now_add=True)
+    objects = MemberManager()
     # Add more fields if necessary
 
     def __str__(self):

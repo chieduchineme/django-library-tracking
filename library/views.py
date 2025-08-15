@@ -11,7 +11,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
 
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
+    queryset = Book.objects.all().select_related("author")
     serializer_class = BookSerializer
 
     @action(detail=True, methods=['post'])
